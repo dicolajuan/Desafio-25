@@ -1,0 +1,44 @@
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+div.ex{
+  width: 40%;
+}
+
+div.ex2{
+  position: relative;
+  left: 25%;
+  width: 50%;
+  background-color: #F28773;
+}
+
+form{
+  display: flex;
+  justify-content:center;
+  align-items:center;
+}
+
+strong.bluetext{
+  color: blue;
+}
+
+span.browntext{
+  color: brown;
+}
+
+em.greentext{
+  color: green;
+}
