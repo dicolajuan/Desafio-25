@@ -8,6 +8,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const {normalizar, desnormalizar} = require('./normalizador');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true};
 
 const objProductos = [];
 const objMensajes = [];
@@ -20,7 +22,11 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     rolling: true,
-    cookie: { maxAge: 10000 }
+    cookie: { expires: 60000 },
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://admin:admin@cluster0.adopj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+        mongoOptions: advancedOptions
+    })
 }));
 
 app.engine(
@@ -79,13 +85,12 @@ io.on ('connection', async (socket) => {
 });
 
 app.get('/', (req,res)=>{
-    res.render('login');
+    req.session.user ? res.redirect('/listProducts') : res.render('login');
+    
 });
 
 app.post('/login', (req,res) => {
-    console.log('/login',req.body);
     req.session.user=req.body.userName;
-    console.log('SESSION: ', req.session);
     if(req.session.user || req.session.user != ''){
         res.redirect('/listProducts');
     } else {
